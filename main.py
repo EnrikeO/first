@@ -1,47 +1,22 @@
-# Є список чисел впорядкованих по зростаню.
-# Напишіть функцію, що буде приймати два аргумента x, lst -
-# і за допомогою алгоритма бінарного пошуку буде повертати True якщо x є у списку lst, i false у зворотньому.
-def bi(x, lst):
-    x2 = len(lst) // 2
-    m = x2
-    if x != lst[x2] and x != lst[0] and x != lst[-1]:
-        while m > 0:
-            if x > lst[x2]:
-                m = m // 2
-                x2 += m
-                continue
-            elif x < lst[x2]:
-                m = m // 2
-                x2 -= m
-                continue
-            elif x == lst[x2]:
-                return True
-        return False
-    else:
-        return True
+def file():
+    l2, l3, c2, c3 = [], [], 0, 0
+    with open('users.txt') as users:
+        for u in users:
+            l = u.strip().split(';')
+            try:
+                int(l[1])
+            except ValueError:
+                l3.append({})
+                l3[c3]['usarname'], l3[c3]['id'], l3[c3]['first_name'], l3[c3]['last_name'] = l[0], l[1], l[2], l[3]
+                c3 += 1
+            else:
+                l2.append({})
+                l2[c2]['usarname'], l2[c2]['id'], l2[c2]['first_name'], l2[c2]['last_name'] = l[0], int(l[1]), l[2], l[3]
+                c2 += 1
+    with open('wrong_rows.txt', 'w') as wr:
+        for i in l3:
+            wr.write(str(i) + '\n')
+    return l2
 
 
-# Написати декоратор, який при кожному виклику функції яку він декорує, буде писати яка функція виконалася
-# і з якими аргументами. Тобто: # Є дві функції exampl_func_1, exampl_func_2
-# Потрібно написати декоратор для цих функцій що після нього при кожному виклику цих функцій буде писати
-# Function <function xxxx> was called with args .... kwargs ...
-def w(f):
-    def wrapper(*args, **kwargs):
-        print(f'Function <{f}> was called with args {args} kwargs {kwargs}')
-        r = f(*args, **kwargs)
-        return r
-    return wrapper
-
-
-@w
-def f1(a, b):
-    return print(f'{a} + {b} =', a + b)
-
-
-@w
-def f2(a, b):
-    return print(f'{a} - {b} =', a - b)
-
-
-f1(5, 6)
-f2(10, 20)
+print(file())
